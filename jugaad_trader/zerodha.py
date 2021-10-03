@@ -314,6 +314,8 @@ class Console(Zerodha):
             function to send GET requests
         """
         def generic_function(**kwargs):
+            if route == "portfolio":
+                kwargs["date"] = datetime.date.today().isoformat()
             return self._get(route, params=kwargs)
         generic_function.__doc__ = docstring
         return generic_function
