@@ -278,7 +278,6 @@ class Console(Zerodha):
         self.reqsession.headers.update(headers)
         self.console_session = "" 
         self.public_token = "" 
-        self.register_functions() 
     def custom_headers(self):
         h = {}
         h['referer'] = 'https://console.zerodha.com/'
@@ -306,34 +305,47 @@ class Console(Zerodha):
             return True
         else:
             raise Exception("Login failed or Kite session expired")
-    
-    def factory_functions(self, route, docstring=""):
-        """
-            All APIs used by console end up sendinga a get request with some
-            data, hence creating a fatory function which will generate a
-            function to send GET requests
-        """
-        def generic_function(**kwargs):
-            if route == "portfolio":
-                kwargs["date"] = datetime.date.today().isoformat()
-            return self._get(route, params=kwargs)
-        generic_function.__doc__ = docstring
-        return generic_function
-    
-    def register_functions(self):
-        self.dashboard = self.factory_functions("dashboard")
-        self.account_values = self.factory_functions("account_values")
-        self.positions = self.factory_functions("positions")
-        self.exposure = self.factory_functions("exposure")
-        self.portfolio = self.factory_functions("portfolio")
-        self.tradebook = self.factory_functions("tradebook")
-        self.pnl = self.factory_functions("pnl")
-        self.pnl_summary = self.factory_functions("pnl_summary")
-        self.tax_pnl = self.factory_functions("tax_pnl")
-        self.fund_balance = self.factory_functions("fund_balance")
-        self.ledger = self.factory_functions("ledger")
-        self.interest_statement = self.factory_functions("interest_statement")
-        self.mandate = self.factory_functions("mandate")
-   
+
+    def dashboard(self, **kwargs):
+        return self._get("dashboard", params=kwargs)
+
+    def account_values(self, **kwargs):
+        return self._get("account_values", params=kwargs)
+
+    def positions(self, **kwargs):
+        return self._get("positions", params=kwargs)
+
+    def exposure(self, **kwargs):
+        return self._get("exposure", params=kwargs)
+
+    def portfolio(self, **kwargs):
+        kwargs["date"] = datetime.date.today().isoformat()
+        return self._get("portfolio", params=kwargs)
+
+    def tradebook(self, **kwargs):
+        return self._get("tradebook", params=kwargs)
+
+    def pnl(self, **kwargs):
+        return self._get("pnl", params=kwargs)
+
+    def pnl_summary(self, **kwargs):
+        return self._get("pnl_summary", params=kwargs)
+
+    def tax_pnl(self, **kwargs):
+        return self._get("tax_pnl", params=kwargs)
+
+    def fund_balance(self, **kwargs):
+        return self._get("fund_balance", params=kwargs)
+
+    def ledger(self, **kwargs):
+        return self._get("ledger", params=kwargs)
+
+    def interest_statement(self, **kwargs):
+        return self._get("interest_statement", params=kwargs)
+
+    def mandate(self, **kwargs):
+        return self._get("mandate", params=kwargs)
+
+
 if __name__=="__main__":
     pass
