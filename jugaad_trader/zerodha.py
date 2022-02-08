@@ -139,13 +139,17 @@ class Zerodha(KiteConnect):
         return h
 
     def _request(self, route, method, url_args=None, params=None,
-                 is_json=False, query_params=None):
+                 is_json=False, query_params=None, custom_url=False):
         if url_args:
             uri = self._routes[route].format(**url_args)
         else:
             uri = self._routes[route]
 
-        url = urljoin(self.root, self.url_patch + uri)
+        url = None
+        if custom_url:
+            url = route
+        else:
+            url = urljoin(self.root, self.url_patch + uri)
 
         # prepare url query params
         if method in ["GET", "DELETE"]:
